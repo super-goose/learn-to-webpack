@@ -1,0 +1,23 @@
+Just a forewarning, this article is going to be a little bit lengthy. Moreso than my other ones up to this point. The reason is, I am learning about webpack, and have hit a snag. I began writing this, to explain the problem, and I remembered some wise words from a (surprisingly decent) manager a while back: "Bring me solutions, not problems".  So while I am learning how to approach this, I am writing an article about it. And rather than breaking it into separate articles, (as I did with Angular 2,) I am doing one giant article. Anyway... this is getting to meta, so let's begin!
+
+<p><h4 title="also known as a table of contents">Article Sections</h4></p>
+<ul>
+    <li><a href="#problem">The problem</a></li>
+    <li><a href="#proposed-solution">The proposed solution</a></li>
+</ul>
+
+While refactoring a bunch of JavaScript, from not using any bundler, to using webpack, I had a thought occur to me. It kinda hurt, but after the pain in my brain subsided, I tried a little experiment, and learned a little bit. Allow me to share.
+
+We have a common object that stores a value inside (specifically, a zip code), and we want to access and/or modify this internally stored zip code. Without a bundler, and having everything in the global namespace, this is pretty straightforward. Every instance that references this zip code references the same object. Therefore, if one area of the website changes the stored value of the zip code, any other area of the website will get the updated value. But, once we bundle everything up, each entry point has its own copy of this common object. Take a look at the diagrams below:
+
+<div style="text-align: center; margin-bottom: 20px; margin-top: 20px;">
+    <div><img style="max-width: 90%" alt="what unbundled javascript looks like, and how we WANT webpack to be" src="/wp-content/uploads/2018/01/webpack-bundle-desired.png"></div>
+    <div>what unbundled JavaScript looks like, and how we WANT webpack to be</div>
+</div>
+
+<div style="text-align: center; margin-bottom: 20px; margin-top: 20px;">
+    <div><img style="max-width: 90%" alt="what vanilla webpack actually does" src="/wp-content/uploads/2018/01/webpack-bundle-actual.png"></div>
+    <div>what vanilla webpack actually does</div>
+</div>
+
+What we need is some way to bundle and deliver the common module once, and reference it from other modules
